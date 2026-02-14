@@ -1,32 +1,11 @@
-🚀 Todo Microservices
 
-A scalable Microservices-based Todo Application built with Node.js, MongoDB, and RabbitMQ, implementing event-driven architecture.
+🔹 Event Flow
 
-🏗️ Architecture Overview
-
-┌─────────────────┐     HTTP      ┌─────────────────┐     AMQP (RabbitMQ)     ┌─────────────────────┐
-│  👤 User Service │◄─────────────►│  📝 Task Service │◄────────────────────►│ Notification Service│
-│  Port: 3000     │               │  Port: 3001     │         Queue: todo     │   🔔(Consumer)     │
-└────────┬────────┘               └────────┬───────┘                          └─────────────────────┘
-         │                                 │
-         │ MongoDB                         │ MongoDB + RabbitMQ
-         ▼                                 ▼
-┌─────────────────┐               ┌─────────────────┐
-│ 🗄 MongoDB (Users)│              │ 🐇 RabbitMQ     │
-│                 │               │ (Message Broker)│
-└─────────────────┘               └─────────────────┘
-
-🔹 Flow
-
-User is created via User Service
-
-Task is created via Task Service
-
-Task event is published to RabbitMQ
-
-Notification Service consumes event
-
-Notification is triggered (currently logged)
+1. **User Creation**: User Service → MongoDB (Users)
+2. **Task Creation**: Task Service → MongoDB (Tasks)
+3. **Event Publishing**: Task Service → RabbitMQ (todo queue)
+4. **Event Consumption**: Notification Service ← RabbitMQ (todo queue)
+5. **Notification**: Notification Service processes and logs events
 
 🛠 Tech Stack
 Layer	Technology
@@ -130,9 +109,9 @@ MongoDB (Local or Atlas)
 RabbitMQ (Docker recommended)
 
 🐳 Run RabbitMQ using Docker
-docker run -d --hostname rabbit \
---name rabbitmq \
--p 5672:5672 -p 15672:15672 \
+docker run -d --hostname rabbit \ 
+--name rabbitmq \ 
+-p 5672:5672 -p 15672:15672 \ 
 rabbitmq:3-management
 
 
