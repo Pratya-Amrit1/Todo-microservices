@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "amqplib": "^0.10.9",
+    "dotenv": "^17.3.1"
+  }
+}
